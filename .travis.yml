@@ -1,0 +1,19 @@
+sudo: required
+
+services:
+  - docker
+
+#before_install:
+#- docker pull trevershick/jhipster-test
+#- docker run -d -p 127.0.0.1:80:4567 carlad/sinatra /bin/sh -c "cd /root/sinatra; bundle exec foreman start;"
+#- docker ps -a
+#- docker run carlad/sinatra /bin/sh -c "cd /root/sinatra; bundle exec rake test"
+
+#script:
+#- bundle exec rake test
+
+#docker compose
+#before_install:
+  #- curl -L https://github.com/docker/compose/releases/download/1.4.0/docker-compose-`uname -s`-`uname -m` > docker-compose
+  #- chmod +x docker-compose
+  #- sudo mv docker-compose /usr/local/bin
