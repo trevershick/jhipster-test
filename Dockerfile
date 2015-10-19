@@ -14,11 +14,20 @@ ENV DEBIAN_FRONTEND noninteractive
 # update dpkg repositories
 RUN apt-get update
 
+#install nodejs
+RUN sudo apt-get --purge remove node
+RUN apt-get install -y build-essential nodejs
+RUN ln -s /usr/bin/node /usr/bin/node
+RUN apt-get install npm
+RUN npm install -g yo bower grunt-cli
+RUN npm install -g generator-jhipster@2.22.0
+
+
 # install wget
 RUN apt-get install -y wget
 
 # get maven 3.2.2
-RUN wget --no-verbose -O /tmp/apache-maven-3.2.2.tar.gz http://archive.apache.org/dist/maven/maven-3/3.2.2/binaries/apache-maven-3.2.2-bin.tar.gz
+RUN wget --quiet --no-verbose -O /tmp/apache-maven-3.2.2.tar.gz http://archive.apache.org/dist/maven/maven-3/3.2.2/binaries/apache-maven-3.2.2-bin.tar.gz
 
 # verify checksum
 RUN echo "87e5cc81bc4ab9b83986b3e77e6b3095 /tmp/apache-maven-3.2.2.tar.gz" | md5sum -c
@@ -33,9 +42,9 @@ ENV MAVEN_HOME /opt/maven
 # install git
 RUN apt-get install -y git
 
-RUN apt-get install mysql-server-5.6
-#install nodejs
-RUN apt-get install -y nodejs npm
+#RUN apt-get install mysql-server-5.6
+
+
 
 # remove download archive files
 RUN apt-get clean
@@ -46,7 +55,7 @@ ENV filename jdk-8u11-linux-x64.tar.gz
 ENV downloadlink http://download.oracle.com/otn-pub/java/jdk/8u11-b12/$filename
 
 # download java, accepting the license agreement
-RUN wget --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" -O /tmp/$filename $downloadlink
+RUN wget --quiet --no-verbose --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" -O /tmp/$filename $downloadlink
 
 # unpack java
 RUN mkdir /opt/java-oracle && tar -zxf /tmp/$filename -C /opt/java-oracle/
@@ -65,8 +74,7 @@ RUN update-alternatives --install /usr/bin/java java $JAVA_HOME/bin/java 20000 &
 # EXPOSE 8080
 
 
-RUN npm install -g yo bower grunt-cli
-RUN npm install -g generator-jhipster@2.22.0
+
 
 MKDIR /var/jhipster-test
 WORKDIR /var/jhipster-test
